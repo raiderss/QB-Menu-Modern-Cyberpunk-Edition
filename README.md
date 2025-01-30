@@ -1,6 +1,10 @@
 # qb-menu
 Menu System for the QBCore Framework
 
+[![YouTube Subscribe](https://img.shields.io/badge/YouTube-Subscribe-red?style=for-the-badge&logo=youtube)](https://www.youtube.com/watch?v=LI-lh9IooYY)
+[![Discord](https://img.shields.io/badge/Discord-Join-blue?style=for-the-badge&logo=discord)](https://discord.gg/EkwWvFS)
+[![Tebex Store](https://img.shields.io/badge/Tebex-Store-green?style=for-the-badge&logo=shopify)](https://eyestore.tebex.io/)
+
 ![cyberpunk-menu](https://github.com/user-attachments/assets/2ea1d8ba-cd0a-45b0-b8ec-1cd47ddc20ec)
 
 ![cyberpunk-qb-menu](https://github.com/user-attachments/assets/830f5ef8-172e-48d6-8cf6-76472d1114ac)
