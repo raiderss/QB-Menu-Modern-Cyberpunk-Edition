@@ -1,6 +1,10 @@
 # qb-menu
 Menu System for the QBCore Framework
 
+![cyberpunk-menu](https://github.com/user-attachments/assets/2ea1d8ba-cd0a-45b0-b8ec-1cd47ddc20ec)
+
+![cyberpunk-qb-menu](https://github.com/user-attachments/assets/830f5ef8-172e-48d6-8cf6-76472d1114ac)
+
 This is a modified version of **[NH Context](https://forum.cfx.re/t/no-longer-supported-standalone-nerohiro-s-context-menu-dynamic-event-firing-menu/2564083)** by **[NeroHiro](https://github.com/nerohiro)**
 
 --[[
