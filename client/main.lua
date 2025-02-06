@@ -67,6 +67,32 @@ end)
 
 -- NUI Callbacks
 
+RegisterNUICallback('inputData', function(data, cb)
+    if headerShown then headerShown = false end
+    PlaySoundFrontend(-1, 'Highlight_Cancel', 'DLC_HEIST_PLANNING_BOARD_SOUNDS', 1)
+    SetNuiFocus(false)
+    if sendData then
+        local inputData = sendData[tonumber(data.id)]
+        sendData = nil
+        if inputData then
+            if inputData.params.event then
+                if inputData.params.isServer then
+                    TriggerServerEvent(inputData.params.event, data.value)
+                elseif inputData.params.isCommand then
+                    ExecuteCommand(inputData.params.event .. " " .. data.value)
+                elseif inputData.params.isQBCommand then
+                    TriggerServerEvent('QBCore:CallCommand', inputData.params.event, {data.value})
+                elseif inputData.params.isAction then
+                    inputData.params.event(data.value)
+                else
+                    TriggerEvent(inputData.params.event, data.value)
+                end
+            end
+        end
+    end
+    cb('ok')
+end)
+
 RegisterNUICallback('clickedButton', function(option, cb)
     if headerShown then headerShown = false end
     PlaySoundFrontend(-1, 'Highlight_Cancel', 'DLC_HEIST_PLANNING_BOARD_SOUNDS', 1)
@@ -98,7 +124,6 @@ RegisterNUICallback('clickedButton', function(option, cb)
     cb('ok')
 end)
 
-
 RegisterNUICallback('closeMenu', function(_, cb)
     headerShown = false
     sendData = nil
@@ -107,7 +132,98 @@ RegisterNUICallback('closeMenu', function(_, cb)
     TriggerEvent("qb-menu:client:menuClosed")
 end)
 
+RegisterNUICallback('formData', function(data, cb)
+    if headerShown then headerShown = false end
+    PlaySoundFrontend(-1, 'Highlight_Cancel', 'DLC_HEIST_PLANNING_BOARD_SOUNDS', 1)
+    SetNuiFocus(false)
+    if sendData then
+        local formData = sendData[tonumber(data.id)]
+        sendData = nil
+        if formData then
+            if formData.params.event then
+                if formData.params.isServer then
+                    TriggerServerEvent(formData.params.event, data.data)
+                elseif formData.params.isCommand then
+                    ExecuteCommand(formData.params.event .. " " .. json.encode(data.data))
+                elseif formData.params.isQBCommand then
+                    TriggerServerEvent('QBCore:CallCommand', formData.params.event, {data.data})
+                elseif formData.params.isAction then
+                    formData.params.event(data.data)
+                else
+                    TriggerEvent(formData.params.event, data.data)
+                end
+            end
+        end
+    end
+    cb('ok')
+end)
+
+RegisterCommand('formData', function()
+ exports['qb-menu']:openMenu({
+    {
+        header = "Create Receipt",
+        isMenuHeader = true
+    },
+    {
+        header = "Receipt Form",
+        isForm = true,
+        inputs = {
+            {
+                type = "text",
+                label = "City ID",
+                name = "cityId",
+                placeholder = "Enter city ID..."
+            },
+            {
+                type = "text",
+                label = "Amount",
+                name = "amount",
+                placeholder = "Enter amount..."
+            },
+            {
+                type = "radio",
+                name = "paymentType",
+                options = {
+                    { label = "Cash", value = "cash", checked = true },
+                    { label = "Debit Card", value = "debit" }
+                }
+            }
+        },
+        params = {
+            event = "receipt:create",
+            isServer = true
+        }
+    }
+})
+end)
+
 -- Command and Keymapping
+
+RegisterCommand('menusearch', function()
+   exports['qb-menu']:openMenu({
+    {
+        header = "EYESTORE",
+        isMenuHeader = true
+    },
+    {
+        header = "Input Example",
+        txt = "Enter a value",
+        input = true,
+        params = {
+            event = "event-name",
+            isServer = true -- veya false
+        }
+    }
+})
+end)
+
+RegisterCommand('closemenusearch', function()
+    if headerShown or sendData then
+        SendNUIMessage({
+            action = 'HIDE_SEARCH'
+        })
+    end
+end)
 
 RegisterCommand('playerfocus', function()
     if headerShown then
